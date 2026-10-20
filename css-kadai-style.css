@@ -1,0 +1,56 @@
+/* 課題1: テキストスタイリング */
+.large-text {
+   font-size: 24px;
+}
+
+.colored-text {
+    color: blue;
+}
+
+.bold-text {
+   font-weight: bold;
+}
+
+.center-text {
+   text-align: center;
+}
+
+/* 課題2: ボックスレイアウト */
+.box {
+    /* 基本のボックススタイル（必要最小限） */
+    padding: 20px;
+    margin: 10px;
+}
+
+.box1 {
+    background-color: red;
+}
+
+.box2 {
+    background-color: green;
+    color: white;
+}
+
+.box3 {
+     background-color: blue;
+    border-radius: 10px;
+}
+
+/* 課題3: レスポンシブデザイン基礎 */
+.responsive-grid {
+   display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.grid-item {
+    /* 基本のグリッドアイテムスタイル */
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+@media (max-width: 768px) {
+    .responsive-grid {
+        grid-template-columns: 1fr;
+    }
+}
