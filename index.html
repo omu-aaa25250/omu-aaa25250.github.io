@@ -1,75 +1,28 @@
-curl  -v https://onisi.github.io
-*   Trying 185.199.110.153:443...
-* Connected to onisi.github.io (185.199.110.153) port 443 (#0)
-* ALPN: offers h2,http/1.1
-* TLSv1.3 (OUT), TLS handshake, Client hello (1):
-*  CAfile: /etc/ssl/certs/ca-certificates.crt
-*  CApath: /etc/ssl/certs
-* TLSv1.3 (IN), TLS handshake, Server hello (2):
-* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
-* TLSv1.3 (IN), TLS handshake, Certificate (11):
-* TLSv1.3 (IN), TLS handshake, CERT verify (15):
-* TLSv1.3 (IN), TLS handshake, Finished (20):
-* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
-* TLSv1.3 (OUT), TLS handshake, Finished (20):
-* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
-* ALPN: server accepted h2
-* Server certificate:
-*  subject: CN=*.github.io
-*  start date: Mar  7 00:00:00 2025 GMT
-*  expire date: Mar  7 23:59:59 2026 GMT
-*  subjectAltName: host "onisi.github.io" matched cert's "*.github.io"
-*  issuer: C=GB; ST=Greater Manchester; L=Salford; O=Sectigo Limited; CN=Sectigo RSA Domain Validation Secure Server CA
-*  SSL certificate verify ok.
-* using HTTP/2
-* h2h3 [:method: GET]
-* h2h3 [:path: /]
-* h2h3 [:scheme: https]
-* h2h3 [:authority: onisi.github.io]
-* h2h3 [user-agent: curl/7.88.1]
-* h2h3 [accept: */*]
-* Using Stream ID: 1 (easy handle 0x5583644867a0)
-> GET / HTTP/2
-> Host: onisi.github.io
-> user-agent: curl/7.88.1
-> accept: */*
->
-* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
-< HTTP/2 200
-< server: GitHub.com
-< content-type: text/html; charset=utf-8
-< last-modified: Thu, 16 Oct 2025 02:28:15 GMT
-< access-control-allow-origin: *
-< etag: "68f0583f-2c0"
-< expires: Mon, 10 Nov 2025 05:10:00 GMT
-< cache-control: max-age=600
-< x-proxy-cache: MISS
-< x-github-request-id: 174B:3B94B4:22025A7:226C547:69117150
-< accept-ranges: bytes
-< date: Mon, 10 Nov 2025 05:07:24 GMT
-< via: 1.1 varnish
-< age: 444
-< x-served-by: cache-itm1220053-ITM
-< x-cache: HIT
-< x-cache-hits: 1
-< x-timer: S1762751244.229087,VS0,VE1
-< vary: Accept-Encoding
-< x-fastly-request-id: e1db36deeceb9f21977e03f1e62c2b133a058972
-< content-length: 704
-<
-<HTML>
-<HEADER>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<TITLE> About Katsumi Onishi </TITLE>
-</HEADER>
+package main
+import (
+  "fmt"
+  "net/http"
+  "net/http/httputil"
+)
 
-<body>
-  <center>大西克実のホームページへようこそ</center>
-<h3>略歴</h3>
-  <P>
-    平４年阪大・工・通信卒．平６同大大学院修士課程了．平８年９月同大大学院博士課程退学後，同年１０月より大阪市立大学・学術情報総合センター助手となり，現在同創造都市研究科准教授．ネットワーク応用，並列処理，組合せ<br>
-最適化問題の解法に関する研究に従事．情報処理学会，電子情報通信学会，日本ＯＲ学会各会員
-  </P>
-</body>
-</HTML>
-* Connection #0 to host onisi.github.io left intact
+
+func main() {
+  const url = "https://onisi.github.io/"
+
+  req, _ := http.NewRequest("GET", url, nil)
+
+  dump, _ := httputil.DumpRequestOut(req, true)
+  fmt.Printf("%s", dump)
+
+  client := new(http.Client)
+  resp, err := client.Do(req)
+    if err != nil {
+		fmt.Println(err)
+		return
+	}
+  defer resp.Body.Close()
+
+
+  dumpResp, _ := httputil.DumpResponse(resp, true)
+  fmt.Printf("%s", dumpResp)
+}
